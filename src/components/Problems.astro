@@ -1,0 +1,26 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import { problems } from "../content/site";
+---
+
+<section class="section" aria-labelledby="problems-title">
+  <div class="wrap">
+    <SectionHeading
+      index="02"
+      id="problems-title"
+      title="When the product outgrows the software"
+      lede="These are the situations I can help investigate. They are not a promise that every engagement looks the same."
+    />
+    <ol class="problem-list">
+      {
+        problems.map((problem, index) => (
+          <li>
+            <span class="problem-num">{String(index + 1).padStart(2, "0")}</span>
+            <h3>{problem.title}</h3>
+            <p>{problem.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

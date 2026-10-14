@@ -1,0 +1,16 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import { about } from "../content/site";
+---
+
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="wrap about-grid">
+    <SectionHeading index="06" id="about-title" title="About" />
+    <div>
+      {about.paragraphs.map((paragraph) => <p class="lede">{paragraph}</p>)}
+      <ul class="about-points">
+        {about.points.map((point) => <li>{point}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>

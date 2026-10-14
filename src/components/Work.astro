@@ -1,0 +1,47 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import { projects } from "../content/site";
+import { externalUrl } from "../lib/links";
+
+const ordered = [...projects].sort((a, b) => a.sortOrder - b.sortOrder);
+---
+
+<section class="section" id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <SectionHeading
+      index="04"
+      id="work-title"
+      title="Selected work"
+      lede="Two product systems, described only as far as I can say in public, and two things I have shipped under my own name. A card has a link only when there is a real page to open."
+    />
+    <ol class="work-list">
+      {
+        ordered.map((project) => {
+          const href = externalUrl(project.href);
+          return (
+            <li>
+              <article class="work-card" aria-labelledby={`work-${project.sortOrder}`}>
+                <p class="work-kicker">{project.context ?? "Product system"}</p>
+                <h3 id={`work-${project.sortOrder}`}>{project.title}</h3>
+                <p>{project.summary}</p>
+                <ul class="tags" aria-label="Topics">
+                  {project.tags.map((tag) => (
+                    <li>{tag}</li>
+                  ))}
+                </ul>
+                {href && project.linkLabel && (
+                  <p class="service-cta">
+                    <a href={href} target="_blank" rel="noopener noreferrer">
+                      {project.linkLabel}
+                      <span class="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </p>
+                )}
+              </article>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

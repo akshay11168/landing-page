@@ -1,0 +1,40 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import { engagements, steps } from "../content/site";
+---
+
+<section class="section" id="approach" aria-labelledby="approach-title">
+  <div class="wrap">
+    <SectionHeading
+      index="05"
+      id="approach-title"
+      title="How I work"
+      lede="This is a working sequence, not a service-level agreement. Engagements are scoped around the problem, constraints, and team."
+    />
+    <ol class="steps">
+      {
+        steps.map((step, index) => (
+          <li>
+            <span class="problem-num">{String(index + 1).padStart(2, "0")}</span>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="engagements">
+      <h3>Ways to work together</h3>
+      <ul>
+        {
+          engagements.map((item) => (
+            <li>
+              <h4>{item.title}</h4>
+              <p>{item.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="note">Rates, weekly hours, and availability are not published here. We can talk about them once the problem is clear.</p>
+    </div>
+  </div>
+</section>

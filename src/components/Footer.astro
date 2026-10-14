@@ -1,0 +1,60 @@
+---
+import { nav, site } from "../content/site";
+import { externalUrl } from "../lib/links";
+
+const year = new Date().getFullYear();
+const portfolio = externalUrl(site.portfolioUrl);
+const profiles = [
+  { href: externalUrl(site.linkedin), label: "LinkedIn" },
+  { href: externalUrl(site.github), label: "GitHub" },
+].filter((item): item is { href: string; label: string } => Boolean(item.href));
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <p class="wordmark">{site.brandName}</p>
+      <p>{site.tagline}</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <ul class="footer-links">
+      <li>
+        <address>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </address>
+      </li>
+      {
+        profiles.map((profile) => (
+          <li>
+            <a href={profile.href} target="_blank" rel="me noopener noreferrer">
+              {profile.label}
+              <span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </li>
+        ))
+      }
+      {
+        portfolio && (
+          <li>
+            <a href={portfolio} target="_blank" rel="noopener noreferrer">
+              Engineering portfolio
+              <span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </li>
+        )
+      }
+    </ul>
+    <p class="copyright">© {year} {site.brandName}</p>
+  </div>
+</footer>

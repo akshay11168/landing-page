@@ -1,0 +1,21 @@
+---
+import { nav, site } from "../content/site";
+---
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="wordmark" href="/">{site.brandName}</a>
+    <nav class="primary-nav" aria-label="Primary">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="button" href="#contact">Start a conversation</a>
+  </div>
+</header>
