@@ -152,6 +152,11 @@ describe("search and assistant metadata", () => {
     }
     assert.equal(types.includes("Review"), false);
     assert.equal(types.includes("LocalBusiness"), false);
+
+    const studio = graph.find((node) => node["@type"] === "SoftwareApplication");
+    assert.equal(studio?.name, "GPay Activity Studio");
+    assert.equal(studio?.url, "https://spend-analyser-gpay.biradarakshay.com/");
+    assert.deepEqual(studio?.author, { "@id": "https://www.biradarakshay.com/#person" });
   });
 
   it("gives assistants the public facts and the limits of those facts", () => {

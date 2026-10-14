@@ -72,6 +72,17 @@ export function structuredData() {
         url: `${pageUrl}#${service.id}`,
         provider: { "@id": nodeId("person") },
       })),
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://spend-analyser-gpay.biradarakshay.com/#app",
+        name: "GPay Activity Studio",
+        description: projects.find((project) => project.title === "GPay Activity Studio")?.summary,
+        url: "https://spend-analyser-gpay.biradarakshay.com/",
+        applicationCategory: "FinanceApplication",
+        isAccessibleForFree: true,
+        author: { "@id": nodeId("person") },
+        creator: { "@id": nodeId("person") },
+      },
     ],
   };
 }
