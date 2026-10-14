@@ -20,8 +20,8 @@ import { hero } from "../content/site";
         {hero.expertise.map((item) => <li>{item}</li>)}
       </ul>
       <div class="actions">
-        <a class="button" href="#contact">{hero.primaryCta}</a>
-        <a class="button secondary" href="#work">{hero.secondaryCta}</a>
+        <a class="button" href="#contact" data-track="cta_click" data-track-location="hero">{hero.primaryCta}</a>
+        <a class="button secondary" href="#work" data-track="cta_click" data-track-location="hero-work">{hero.secondaryCta}</a>
       </div>
     </div>
     <div class="sketch-frame">

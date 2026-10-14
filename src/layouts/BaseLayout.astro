@@ -6,6 +6,10 @@ import Footer from "../components/Footer.astro";
 import { site } from "../content/site";
 import { structuredDataJson } from "../lib/seo";
 
+const beacon = import.meta.env.PUBLIC_CLOUDFLARE_BEACON_TOKEN?.trim() ?? "";
+const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID?.trim() ?? "";
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC?.trim() || "https://cloud.umami.is/script.js";
+
 interface Props {
   title?: string;
   description?: string;
@@ -67,5 +71,23 @@ const robots = noindex
       <slot />
     </main>
     <Footer />
+    <script>
+      import { bindAnalytics } from "../scripts/analytics";
+      bindAnalytics();
+    </script>
+    {
+      beacon && (
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: beacon })}
+        />
+      )
+    }
+    {
+      umamiId && (
+        <script defer src={umamiSrc} data-website-id={umamiId} data-domains="www.biradarakshay.com" />
+      )
+    }
   </body>
 </html>

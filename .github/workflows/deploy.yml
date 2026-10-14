@@ -35,6 +35,9 @@ jobs:
         run: npm run build
         env:
           PUBLIC_WEB3FORMS_ACCESS_KEY: ${{ secrets.PUBLIC_WEB3FORMS_ACCESS_KEY }}
+          PUBLIC_CLOUDFLARE_BEACON_TOKEN: ${{ secrets.PUBLIC_CLOUDFLARE_BEACON_TOKEN }}
+          PUBLIC_UMAMI_WEBSITE_ID: ${{ secrets.PUBLIC_UMAMI_WEBSITE_ID }}
+          PUBLIC_UMAMI_SRC: ${{ secrets.PUBLIC_UMAMI_SRC }}
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

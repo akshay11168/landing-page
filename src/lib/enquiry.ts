@@ -9,7 +9,7 @@ export type EnquiryFields = {
   budget: string;
 };
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const emailPattern = /^[^\s@.]+[^\s@]*@[^\s@]+\.[a-z]{2,}$/i;
 
 export function validateEnquiry(fields: EnquiryFields): Record<string, string> {
   const errors: Record<string, string> = {};
@@ -24,7 +24,7 @@ export function validateEnquiry(fields: EnquiryFields): Record<string, string> {
   else if (name.length > 120) errors.name = "Use a shorter name.";
 
   if (!email) errors.email = "Enter your work email.";
-  else if (email.length > 200 || !emailPattern.test(email)) {
+  else if (email.length > 200 || email.includes("..") || !emailPattern.test(email)) {
     errors.email = "Enter a valid work email.";
   }
 

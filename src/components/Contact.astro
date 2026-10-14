@@ -1,5 +1,5 @@
 ---
-import { contactTopics, site } from "../content/site";
+import { contactCopy, contactTopics, site } from "../content/site";
 
 const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? "";
 const usesProvider = accessKey.trim().length > 0;
@@ -16,15 +16,19 @@ const usesProvider = accessKey.trim().length > 0;
         Tell me where it is straining. A short description is enough to see whether I can help, and what a sensible first scope would be.
       </p>
       <p>
-        <a class="mail-link" href={`mailto:${site.email}`}>Email {site.email}</a>
+        <a class="mail-link" data-track="email_click" href={`mailto:${site.email}`}>Email {site.email}</a>
       </p>
+      <p class="privacy">{contactCopy.reply}</p>
       <p class="privacy">
-        {
-          usesProvider
-            ? `The form sends your enquiry through Web3Forms to ${site.email}. Your work email is the reply-to address. I use the details only to respond to this request. Phone and budget are optional. This page does not run analytics.`
-            : `Until email delivery is switched on, submitting opens your email app with the enquiry addressed to ${site.email}. Nothing is stored on this site, and nothing is sent until you send that message. Phone and budget are optional. This page does not run analytics.`
-        }
+        {contactCopy.faster}{" "}
+        <a data-track="email_click" href={`mailto:${site.directEmail}`}>{site.directEmail}</a>,{" "}
+        <a href={`tel:${site.phoneTel}`}>call {site.phoneDisplay}</a>, or{" "}
+        <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer">
+          WhatsApp<span class="sr-only"> (opens in a new tab)</span>
+        </a>{" "}
+        the same number.
       </p>
+      {!usesProvider && <p class="privacy">{contactCopy.mailtoNote}</p>}
     </div>
     <form
       class="enquiry"
@@ -96,6 +100,20 @@ const usesProvider = accessKey.trim().length > 0;
       </button>
     </form>
   </div>
+  <dialog class="received" data-received aria-labelledby="received-title">
+    <h2 id="received-title">{contactCopy.receivedTitle}</h2>
+    <p>{contactCopy.receivedBody}</p>
+    <p>
+      {contactCopy.faster}{" "}
+      <a data-track="email_click" href={`mailto:${site.directEmail}`}>{site.directEmail}</a>,{" "}
+      <a href={`tel:${site.phoneTel}`}>call {site.phoneDisplay}</a>, or{" "}
+      <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer">
+        WhatsApp<span class="sr-only"> (opens in a new tab)</span>
+      </a>{" "}
+      the same number.
+    </p>
+    <button class="button" type="button" data-received-close>Close</button>
+  </dialog>
 </section>
 
 <script>

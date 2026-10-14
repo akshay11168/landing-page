@@ -57,6 +57,7 @@ export function structuredData() {
         description: site.positioning,
         url: pageUrl,
         email: site.email,
+        telephone: site.phoneTel,
         image: `${site.url}/og.svg`,
         sameAs,
         knowsAbout,
@@ -114,6 +115,8 @@ ${site.description}
 
 - Site: ${pageUrl}
 - Email: ${site.email}
+- Faster email: ${site.directEmail}
+- Phone and WhatsApp: ${site.phoneDisplay}
 - LinkedIn: ${site.linkedin}
 - GitHub: ${site.github}
 - Building software since ${site.careerStart}

@@ -46,6 +46,10 @@ export const site = {
     "Akshay Biradar helps product teams whose software has to keep up: system design, services and APIs, PostgreSQL, integrations, and production readiness.",
   url: "https://www.biradarakshay.com",
   email: "enquiry@biradarakshay.com",
+  directEmail: "akshay11168@gmail.com",
+  phoneDisplay: "+91 96193 75391",
+  phoneTel: "+919619375391",
+  whatsappUrl: "https://wa.me/919619375391",
   linkedin: "https://www.linkedin.com/in/biradar-akshay/",
   github: "https://github.com/akshay11168",
   /** Set when the engineering portfolio has a public URL. Empty hides the link. */
@@ -283,3 +287,13 @@ export const nav = [
 export function discussHref(serviceId: string): string {
   return `/?topic=${encodeURIComponent(serviceId)}#contact`;
 }
+
+export const contactCopy = {
+  reply:
+    "I read every enquiry and reply to the work email you enter. Phone and budget can be left blank.",
+  faster: "For a faster reply:",
+  receivedTitle: "I've received your request",
+  receivedBody: "I'll reply to the email address you entered.",
+  mailtoNote:
+    "Submitting opens your email app with this enquiry ready to send. Nothing is sent until you send that message.",
+};

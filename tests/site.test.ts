@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { contactTopics, projects, services, site } from "../src/content/site.ts";
+import { analyticsProps, isAnalyticsHost } from "../src/lib/analytics.ts";
+import { contactCopy, contactTopics, projects, services, site } from "../src/content/site.ts";
 import { mailtoUrl, validateEnquiry } from "../src/lib/enquiry.ts";
 import { externalUrl } from "../src/lib/links.ts";
 import { llmsTxt, structuredData } from "../src/lib/seo.ts";
@@ -92,6 +93,13 @@ describe("enquiry validation", () => {
     assert.equal(validateEnquiry({ ...validBase, phone: "" }).phone, undefined);
   });
 
+  it("requires a real work email", () => {
+    for (const email of ["not-an-email", "ada@", "ada@product", "a@b.c", "ada@product..example"]) {
+      assert.ok(validateEnquiry({ ...validBase, email }).email, email);
+    }
+    assert.equal(validateEnquiry({ ...validBase, email: "ada.lovelace+work@company.co.uk" }).email, undefined);
+  });
+
   it("builds a mailto that omits blank optional fields", () => {
     const href = mailtoUrl("enquiry@biradarakshay.com", validBase);
     assert.ok(href.startsWith("mailto:enquiry@biradarakshay.com?"));
@@ -132,6 +140,7 @@ describe("search and assistant metadata", () => {
     const person = graph.find((node) => node["@type"] === "Person");
     assert.equal(person?.name, "Akshay Biradar");
     assert.equal(person?.email, "enquiry@biradarakshay.com");
+    assert.equal(person?.telephone, "+919619375391");
     assert.deepEqual(person?.sameAs, [
       "https://www.linkedin.com/in/biradar-akshay/",
       "https://github.com/akshay11168",
@@ -149,10 +158,42 @@ describe("search and assistant metadata", () => {
     const text = llmsTxt();
     assert.match(text, /^# Akshay Biradar/);
     assert.match(text, /enquiry@biradarakshay\.com/);
+    assert.match(text, /akshay11168@gmail\.com/);
+    assert.match(text, /\+91 96193 75391/);
     assert.match(text, /https:\/\/www\.biradarakshay\.com\/#system-design/);
     assert.match(text, /https:\/\/spend-analyser-gpay\.biradarakshay\.com/);
     assert.match(text, /No public page/);
     assert.match(text, /does not publish/);
     assert.doesNotMatch(text, /lorem ipsum|example\.com|10x|guaranteed/i);
+  });
+
+  it("keeps the public contact note free of setup language", () => {
+    const blob = JSON.stringify(contactCopy).toLowerCase();
+    for (const banned of ["web3forms", "analytics", "reply-to", "access key"]) {
+      assert.equal(blob.includes(banned), false, banned);
+    }
+    assert.match(contactCopy.receivedBody, /email address you entered/);
+  });
+});
+
+describe("analytics properties", () => {
+  it("drops enquiry contents and keeps only short labels", () => {
+    assert.deepEqual(
+      analyticsProps({
+        location: "hero",
+        project: "gpay-activity-studio",
+        path: "/",
+        email: "ada@product.example",
+        message: "The checkout API retries",
+      }),
+      { location: "hero", project: "gpay-activity-studio", path: "/" },
+    );
+    assert.deepEqual(analyticsProps({ location: "ada@product.example", project: "+919619375391" }), {});
+  });
+
+  it("ignores local development hosts", () => {
+    assert.equal(isAnalyticsHost("localhost"), false);
+    assert.equal(isAnalyticsHost("127.0.0.1"), false);
+    assert.equal(isAnalyticsHost("www.biradarakshay.com"), true);
   });
 });

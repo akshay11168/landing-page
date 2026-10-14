@@ -31,7 +31,13 @@ const ordered = [...projects].sort((a, b) => a.sortOrder - b.sortOrder);
                 </ul>
                 {href && project.linkLabel && (
                   <p class="service-cta">
-                    <a href={href} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-track="project_click"
+                      data-track-project={project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}
+                    >
                       {project.linkLabel}
                       <span class="sr-only"> (opens in a new tab)</span>
                     </a>

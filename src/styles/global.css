@@ -608,6 +608,46 @@ h3 {
   font-size: 0.95rem;
 }
 
+.contact .privacy a {
+  color: var(--paper);
+  font-weight: 700;
+}
+
+.contact .received,
+.contact .received h2,
+.contact .received p {
+  color: var(--ink);
+}
+
+.received {
+  width: min(28rem, calc(100% - 2rem));
+  border: 1px solid var(--ink);
+  background: var(--paper-raised);
+  color: var(--ink);
+  padding: 1.5rem;
+}
+
+.received::backdrop {
+  background: rgb(36 49 48 / 55%);
+}
+
+.received h2 {
+  max-width: none;
+  font-size: 1.8rem;
+}
+
+.received p {
+  margin-top: 0.8rem;
+}
+
+.received .button {
+  margin-top: 1.25rem;
+}
+
+.received .button::after {
+  content: none;
+}
+
 .enquiry {
   display: grid;
   gap: 0.9rem;

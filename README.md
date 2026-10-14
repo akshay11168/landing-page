@@ -78,7 +78,62 @@ In the GitHub repository:
 
 `www` is the host this repo is built for. The apex domain (`biradarakshay.com` without `www`) is a separate DNS decision and is not the canonical URL.
 
-The workflow runs tests, the typecheck, and the production build. If `PUBLIC_WEB3FORMS_ACCESS_KEY` is unset, the build still succeeds and the form stays on the email-app path.
+The workflow runs tests, the typecheck, and the production build. If `PUBLIC_WEB3FORMS_ACCESS_KEY` is unset, the build still succeeds and the form stays on the email-app path. The public page does not name the form provider.
+
+## Search and measurement
+
+The production page already has one title and description, a canonical URL on `https://www.biradarakshay.com`, Open Graph and social metadata, one H1, crawlable copy, `robots.txt`, a sitemap of the homepage only, a noindex 404, and structured data for the person and the published services. That data does not include ratings, reviews, or an address.
+
+Separate service pages, articles, and case studies are not added until there is a distinct page's worth of public material. Splitting the current sections into thin pages would not help a buyer.
+
+### Google Search Console
+
+After `https://www.biradarakshay.com` answers over HTTPS:
+
+1. Open [Google Search Console](https://search.google.com/search-console) and add the domain property `biradarakshay.com`, or the URL prefix `https://www.biradarakshay.com`.
+2. Verify the domain. A DNS TXT record at the domain host is the usual method. Cloudflare can add that TXT record.
+3. Submit `https://www.biradarakshay.com/sitemap-index.xml`.
+4. Use the Performance report for impressions, clicks, click-through rate, average position, and queries. Use Pages to see which URLs get organic traffic. Use Sitemaps and Page indexing for coverage problems.
+
+Search Console is the source for organic queries. It does not record enquiry contents. Rankings are not guaranteed.
+
+### Analytics
+
+Two cookieless tools, each for a different job. Neither is loaded until its value is set, and neither receives names, email addresses, phone numbers, or enquiry text. Local hosts are ignored. Do not put personal details in UTM links.
+
+**Cloudflare Web Analytics** records visits, referrers, and Core Web Vitals. It does not record the custom events below.
+
+1. In the Cloudflare dashboard, open Web Analytics and add `www.biradarakshay.com`.
+2. Copy the site token from the JS snippet.
+3. Add a repository Actions secret named `PUBLIC_CLOUDFLARE_BEACON_TOKEN`.
+4. Re-run the deploy. For a local check, put the same name in `.env`. Do not commit it.
+
+**Umami** is optional and records only these events:
+
+| Event | When it is sent |
+|---|---|
+| `project_click` | A visitor opens a project that has a public link |
+| `cta_click` | A visitor uses a main call to action or “Discuss this challenge” |
+| `enquiry_start` | The first time a visitor focuses the enquiry form on that page load |
+| `enquiry_success` | Web3Forms confirms the enquiry was accepted. Once per accepted submit. A failed submit or the email-app path does not count |
+| `email_click` | A visitor clicks an email address |
+
+Properties are limited to `location`, `project`, and `path`.
+
+1. Create a site in [Umami Cloud](https://cloud.umami.is) or on a self-hosted Umami.
+2. Add the Actions secret `PUBLIC_UMAMI_WEBSITE_ID`.
+3. For self-hosted Umami, also set `PUBLIC_UMAMI_SRC` to that script URL. Leave it empty to use Umami Cloud.
+4. Re-run the deploy. Send one real enquiry and confirm `enquiry_success` appears once, and that a failed submit does not.
+
+UTM parameters on the landing URL (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`) are read by these tools from the page URL. No extra storage is added for them.
+
+These tools do not set cookies, so the page does not add a consent banner. If a later tool sets cookies, add a notice before enabling it.
+
+### What to review each month
+
+From Cloudflare or Umami: visitors, page views, sources, and top links. From Umami, when it is enabled: CTA clicks, form starts, and successful enquiries. From Search Console: impressions, clicks, click-through rate, average position, and queries. Enquiry conversion is successful enquiries divided by visits in the same month. Do not count spam, tests, or failed submits. Whether a lead became a client is kept in your own notes, not in the analytics tools.
+
+Traffic forecasts are not part of this site. Collect a few months of these numbers before estimating anything, and label estimates as estimates.
 
 ## Launch checklist
 
@@ -88,6 +143,9 @@ The workflow runs tests, the typecheck, and the production build. If `PUBLIC_WEB
 - [x] Selected work: messaging system, offer engine, GPay Activity Studio, static PDF host
 - [ ] DNS for `www` and GitHub Pages custom domain, then a live HTTPS check
 - [ ] Web3Forms access key, recipient verification, and a real delivery test
+- [ ] Cloudflare Web Analytics token, then a production page view
+- [ ] Optional Umami website id, then one confirmed `enquiry_success`
+- [ ] Google Search Console domain verification and sitemap submission
 - [ ] Public links or fuller non-confidential descriptions for the messaging system and the offer engine
 - [ ] Engineering portfolio URL, when that site exists (`site.portfolioUrl`)
 - [ ] Rates and availability stay unpublished unless you decide otherwise

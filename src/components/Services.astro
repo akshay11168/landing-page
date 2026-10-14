@@ -32,7 +32,7 @@ const related = services.filter((service) => service.placement === "related");
               <p class="aim"><span>The aim</span> {service.aim}</p>
             </div>
             <p class="service-cta">
-              <a href={discussHref(service.id)}>Discuss this challenge</a>
+              <a href={discussHref(service.id)} data-track="cta_click" data-track-location={service.id}>Discuss this challenge</a>
             </p>
           </article>
         ))
@@ -51,7 +51,7 @@ const related = services.filter((service) => service.placement === "related");
               <p>{service.problem}</p>
               <p class="aim"><span>The aim</span> {service.aim}</p>
               <p class="service-cta">
-                <a href={discussHref(service.id)}>Discuss this challenge</a>
+                <a href={discussHref(service.id)} data-track="cta_click" data-track-location={service.id}>Discuss this challenge</a>
               </p>
             </article>
           ))

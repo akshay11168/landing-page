@@ -1,3 +1,4 @@
+import { track } from "../lib/analytics";
 import { mailtoUrl, validateEnquiry, type EnquiryFields } from "../lib/enquiry";
 
 type FormStatus = "pending" | "success" | "error";
@@ -18,6 +19,11 @@ export function bindEnquiryForm(accessKey: string): void {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     void sendEnquiry(form, accessKey.trim());
+  });
+
+  const dialog = document.querySelector<HTMLDialogElement>("[data-received]");
+  dialog?.querySelector("[data-received-close]")?.addEventListener("click", () => {
+    dialog.close();
   });
 }
 
@@ -121,11 +127,9 @@ async function sendEnquiry(form: HTMLFormElement, accessKey: string): Promise<vo
     }
 
     form.reset();
-    showStatus(
-      status,
-      "Web3Forms accepted the enquiry. I will reply by email. This does not reserve a start date.",
-      "success",
-    );
+    showStatus(status, "I've received your request. I'll reply to the email address you entered.", "success");
+    track("enquiry_success");
+    document.querySelector<HTMLDialogElement>("[data-received]")?.showModal();
   } catch (error) {
     const detail = error instanceof Error ? error.message : "The form service did not accept it.";
     showStatus(
