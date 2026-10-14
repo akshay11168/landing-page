@@ -167,6 +167,9 @@ h3 {
 }
 
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   background: var(--paper);
   border-bottom: 1px solid var(--line);
 }
@@ -432,15 +435,44 @@ h3 {
   border-top: 1px solid var(--ink);
 }
 
-.service ul,
+.service-scope summary,
+.steps-disclosure summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+}
+
+.service-scope summary::-webkit-details-marker,
+.steps-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.service-scope summary::before,
+.steps-disclosure summary::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-right: 0.55rem;
+  background: var(--yellow);
+  flex: none;
+}
+
+.service-scope ul,
 .related li,
 .about-points {
   margin: 0.7rem 0 0;
   padding-left: 1.1rem;
 }
 
-.service ul {
+.service-scope ul {
   list-style: disc;
+}
+
+.steps-disclosure .steps {
+  margin-top: 0.35rem;
 }
 
 .service-problem {
@@ -763,6 +795,52 @@ h3 {
   max-width: 16ch;
 }
 
+@media (max-width: 899px) {
+  .header-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0;
+    padding: 0.45rem 0 0.1rem;
+  }
+
+  .wordmark {
+    grid-column: 1;
+    grid-row: 1;
+    margin-right: 0;
+  }
+
+  .site-header .button {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.92rem;
+  }
+
+  .primary-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    flex-basis: auto;
+  }
+
+  [id] {
+    scroll-margin-top: 8.25rem;
+  }
+
+  .hero {
+    padding: 1.75rem 0 2.25rem;
+  }
+
+  .sketch-frame {
+    width: min(100%, 17.5rem);
+  }
+
+  .section {
+    padding: 2.4rem 0;
+  }
+}
+
 @media (min-width: 700px) {
   .wrap {
     width: min(var(--wrap), calc(100% - 3rem));
@@ -786,10 +864,14 @@ h3 {
 }
 
 @media (min-width: 900px) {
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  .service-scope[open],
+  .steps-disclosure[open] {
+    margin-top: 0;
+  }
+
+  .service-scope[open] > summary,
+  .steps-disclosure[open] > summary {
+    display: none;
   }
 
   .hero-grid {

@@ -24,11 +24,14 @@ const related = services.filter((service) => service.placement === "related");
             </div>
             <div>
               <p class="fits"><span>Fits when</span> {service.fits}</p>
-              <ul>
-                {service.work.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
+              <details class="service-scope" data-disclose>
+                <summary>What this includes</summary>
+                <ul>
+                  {service.work.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </details>
               <p class="aim"><span>The aim</span> {service.aim}</p>
             </div>
             <p class="service-cta">

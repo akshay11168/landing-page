@@ -11,17 +11,20 @@ import { engagements, steps } from "../content/site";
       title="How I work"
       lede="This is a working sequence, not a service-level agreement. Engagements are scoped around the problem, constraints, and team."
     />
-    <ol class="steps">
-      {
-        steps.map((step, index) => (
-          <li>
-            <span class="problem-num">{String(index + 1).padStart(2, "0")}</span>
-            <h3>{step.title}</h3>
-            <p>{step.body}</p>
-          </li>
-        ))
-      }
-    </ol>
+    <details class="steps-disclosure" data-disclose>
+      <summary>The working sequence</summary>
+      <ol class="steps">
+        {
+          steps.map((step, index) => (
+            <li>
+              <span class="problem-num">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </details>
     <div class="engagements">
       <h3>Ways to work together</h3>
       <ul>
