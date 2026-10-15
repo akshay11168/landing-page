@@ -210,14 +210,13 @@ export const projects: Project[] = [
     sortOrder: 3,
   },
   {
-    title: "Static PDF hosting",
+    title: "QR generator",
     summary:
-      "A static host for PDFs. Each document has a stable URL and a QR code, so replacing the file does not change the link.",
-    context:
-      "Personal infrastructure for events and documents. The tooling is TypeScript; the public site is static.",
-    tags: ["Static hosting", "TypeScript"],
+      "A page that turns any text or link into a QR code in the browser. The code stores that text directly. Nothing is uploaded, and scanning it does not redirect through the site.",
+    context: "A personal tool. The page is static.",
+    tags: ["Browser tool"],
     href: "https://static-hosting.biradarakshay.com",
-    linkLabel: "Open the PDF host",
+    linkLabel: "Open the QR generator",
     featured: true,
     sortOrder: 4,
   },

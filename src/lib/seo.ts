@@ -83,6 +83,17 @@ export function structuredData() {
         author: { "@id": nodeId("person") },
         creator: { "@id": nodeId("person") },
       },
+      {
+        "@type": "WebApplication",
+        "@id": "https://static-hosting.biradarakshay.com/#app",
+        name: "QR generator",
+        description: projects.find((project) => project.title === "QR generator")?.summary,
+        url: "https://static-hosting.biradarakshay.com/",
+        applicationCategory: "UtilitiesApplication",
+        isAccessibleForFree: true,
+        author: { "@id": nodeId("person") },
+        creator: { "@id": nodeId("person") },
+      },
     ],
   };
 }

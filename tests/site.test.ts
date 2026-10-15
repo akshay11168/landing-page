@@ -42,7 +42,7 @@ describe("public content", () => {
   it("publishes only the four approved projects, with real links or none", () => {
     assert.deepEqual(
       [...projects].sort((a, b) => a.sortOrder - b.sortOrder).map((project) => project.title),
-      ["Messaging system", "Offer engine", "GPay Activity Studio", "Static PDF hosting"],
+      ["Messaging system", "Offer engine", "GPay Activity Studio", "QR generator"],
     );
 
     for (const project of projects) {

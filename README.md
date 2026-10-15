@@ -140,7 +140,7 @@ Traffic forecasts are not part of this site. Collect a few months of these numbe
 - [x] Public name: Akshay Biradar
 - [x] Enquiry address: enquiry@biradarakshay.com
 - [x] Canonical host: https://www.biradarakshay.com
-- [x] Selected work: messaging system, offer engine, GPay Activity Studio, static PDF host
+- [x] Selected work: messaging system, offer engine, GPay Activity Studio, QR generator
 - [ ] DNS for `www` and GitHub Pages custom domain, then a live HTTPS check
 - [ ] Web3Forms access key, recipient verification, and a real delivery test
 - [ ] Cloudflare Web Analytics token, then a production page view
