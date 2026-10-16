@@ -28,20 +28,14 @@ export function validateEnquiry(fields: EnquiryFields): Record<string, string> {
     errors.email = "Enter a valid work email.";
   }
 
-  if (!fields.topic.trim()) errors.topic = "Choose what you need help with.";
+  if (message.length > 4000) errors.message = "Shorten the description and send the detail by email if needed.";
 
-  if (!message) errors.message = "Describe the problem in a few sentences.";
-  else if (message.length > 4000) errors.message = "Shorten the description and send the detail by email if needed.";
+  if (company.length > 160) errors.company = "Use a shorter company name.";
+  if (budget.length > 200) errors.budget = "Shorten the budget note.";
 
-  if (company.length > 160) errors.company = "Use a shorter company or product name.";
-  if (budget.length > 200) errors.budget = "Shorten the budget or timeline note.";
-
-  if (phone) {
-    const digits = phone.replace(/\D/g, "");
-    if (digits.length < 7 || digits.length > 15) {
-      errors.phone = "Enter a phone number, or leave this blank.";
-    }
-  }
+  const digits = phone.replace(/\D/g, "");
+  if (!phone) errors.phone = "Enter a phone number.";
+  else if (digits.length < 7 || digits.length > 15) errors.phone = "Enter a valid phone number.";
 
   return errors;
 }
@@ -51,12 +45,15 @@ export function mailtoUrl(to: string, fields: EnquiryFields): string {
     `Name: ${fields.name.trim()}`,
     `Work email: ${fields.email.trim()}`,
   ];
-  if (fields.company.trim()) head.push(`Company or product: ${fields.company.trim()}`);
-  head.push(`Help with: ${fields.topicLabel.trim()}`);
-  if (fields.phone.trim()) head.push(`Phone: ${fields.phone.trim()}`);
-  if (fields.budget.trim()) head.push(`Budget or timeline: ${fields.budget.trim()}`);
+  if (fields.company.trim()) head.push(`Company: ${fields.company.trim()}`);
+  head.push(`Phone: ${fields.phone.trim()}`);
+  if (fields.topic.trim()) head.push(`Help with: ${fields.topicLabel.trim()}`);
+  if (fields.budget.trim()) head.push(`Budget: ${fields.budget.trim()}`);
 
-  const body = `${head.join("\n")}\n\n${fields.message.trim()}`;
-  const subject = `Project enquiry: ${fields.topicLabel.trim()}`;
+  const note = fields.message.trim();
+  const body = note ? `${head.join("\n")}\n\n${note}` : head.join("\n");
+  const subject = fields.topic.trim()
+    ? `Project enquiry: ${fields.topicLabel.trim()}`
+    : "Project enquiry from www.biradarakshay.com";
   return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }

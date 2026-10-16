@@ -3,33 +3,28 @@
  * and links. Do not invent clients, metrics, testimonials, or credentials.
  */
 
-export type ServicePlacement = "lead" | "related";
-
-export type Service = {
+export type Offering = {
   id: string;
   name: string;
-  placement: ServicePlacement;
-  problem: string;
-  fits: string;
-  work: string[];
-  aim: string;
+  summary: string;
+  items: string[];
 };
 
 export type Project = {
+  slug: string;
   title: string;
+  /** One line on the home page. The detail page uses summary. */
+  line: string;
   summary: string;
   context?: string;
   tags: string[];
   /** Public https URL. Omit when there is no page to open. */
   href?: string;
   linkLabel?: string;
+  /** Thumbnail in public/. */
+  image: string;
   featured: boolean;
   sortOrder: number;
-};
-
-export type Step = {
-  title: string;
-  body: string;
 };
 
 export type Engagement = {
@@ -37,13 +32,26 @@ export type Engagement = {
   body: string;
 };
 
+export type Stat = {
+  value: number;
+  suffix: string;
+  display: string;
+  label: string;
+  detail?: string;
+};
+
+export type Logo = {
+  src: string;
+  alt: string;
+};
+
 export const site = {
   brandName: "Akshay Biradar",
   jobTitle: "Senior Software Engineer",
-  tagline: "Software that holds up as the product grows.",
-  title: "Akshay Biradar | Software at Scale for Product Teams",
+  tagline: "Big ideas are easy. Making them work is the job.",
+  title: "Akshay Biradar | Making Ideas Work",
   description:
-    "Akshay Biradar helps product teams whose software has to keep up: system design, services and APIs, PostgreSQL, integrations, and production readiness.",
+    "Akshay Biradar helps you turn a what-if into working software: strategy, leadership, engineering, and technology partnerships.",
   url: "https://www.biradarakshay.com",
   email: "enquiry@biradarakshay.com",
   directEmail: "akshay11168@gmail.com",
@@ -56,240 +64,285 @@ export const site = {
   portfolioUrl: "",
   careerStart: "May 2019",
   positioning:
-    "I help product teams build software that can grow: the services, data, and integrations underneath the product, and the judgment to add complexity only when it earns its place.",
+    "We turn a what-if into something that works: the strategy, the expertise, and the hands-on execution.",
 };
 
 export const hero = {
-  kicker: "Software at scale, independently",
-  before: "I build the software that has to ",
-  mark: "hold",
-  after: " as the product scales.",
-  lede: "For founders and engineering leaders whose product is outgrowing the system underneath it. The work is hands-on: architecture, services, data, and the connections between them — a defined project, a technical review, or senior help with the team you already have.",
-  expertiseLabel: "Most often",
-  expertise: ["TypeScript", "Node.js", "PostgreSQL", "Redis", "AWS"],
-  primaryCta: "Start a conversation",
-  secondaryCta: "Explore selected work",
+  title: "Big Ideas Are Easy. Making Them Work Is the Job.",
+  promise: "We turn your “what if?” into “it works”.",
+  lede: "Whether you're figuring out what's next, solving what's holding you back or building something entirely new, we bring the strategy, expertise and hands-on execution to help you make it happen.",
+  primaryCta: "Explore How We Can Help",
+  secondaryCta: "Let’s Talk Now",
 };
 
-export const problems: Step[] = [
+export const stats: Stat[] = [
   {
-    title: "The product is moving faster than the software.",
-    body: "New work picks up surprises in the services, the data, or the path between them. Shipping gets heavier just as the business wants to move faster.",
+    value: 7,
+    suffix: "+",
+    display: "7+",
+    label: "Years",
+    detail: "In Technology & Product Delivery",
   },
   {
-    title: "Growth is exposing the seams.",
-    body: "Load, more customers, or another team makes failures that used to be rare show up in production. Retries, duplicates, and slow paths stop being theoretical.",
+    value: 10000,
+    suffix: "+",
+    display: "10,000+",
+    label: "Hours of Engineering & Delivery",
   },
   {
-    title: "You need a direction before adding more.",
-    body: "The next product step is clear. The technical one is not. You want a scope and a set of trade-offs, not a new platform for its own sake.",
-  },
-];
-
-export const services: Service[] = [
-  {
-    id: "system-design",
-    name: "System design and architecture",
-    placement: "lead",
-    problem: "The next stage of the product needs a system that can carry it.",
-    fits: "Founders and engineering leaders who want a recommendation they can build, including what to leave alone.",
-    work: [
-      "Architecture reviews and technical discovery.",
-      "Service boundaries, data flow, and how the pieces should grow.",
-      "Reliability, failure modes, and what breaks first under more load or more teams.",
-      "A written plan and the trade-offs behind it.",
-    ],
-    aim: "A scoped approach for the system you have, without machinery you do not need yet.",
+    value: 4,
+    suffix: "+",
+    display: "4+",
+    label: "Countries Worked Across",
   },
   {
-    id: "backend-engineering",
-    name: "Services and APIs",
-    placement: "lead",
-    problem: "The services behind the product are getting risky to change.",
-    fits: "A product team that needs those services built, repaired, or made easier to keep changing as the product grows.",
-    work: [
-      "API design and implementation in TypeScript, Node.js, and NestJS.",
-      "Modular services, and refactoring aimed at maintainability.",
-      "Authentication and authorization where the product actually needs them.",
-      "Background work, and a focused look at the parts of the codebase that hurt.",
-    ],
-    aim: "Services the team can change, with a clearer structure and fewer surprises in the business rules.",
-  },
-  {
-    id: "postgresql-data",
-    name: "PostgreSQL, data, and performance",
-    placement: "lead",
-    problem: "Data-heavy paths are slow, awkward to change, or hard to trust as volume and concurrency grow.",
-    fits: "Teams whose product depends on queries, transactions, or a migration they cannot afford to get wrong.",
-    work: [
-      "Schema, SQL, and index review.",
-      "Transaction boundaries and concurrency.",
-      "Data-access patterns that match how the product actually reads and writes.",
-      "Migration planning, including large tables, plus retention and archival when old data should leave the hot path.",
-    ],
-    aim: "Clearer data access, and a practical plan for the queries and migrations that are in the way.",
-  },
-  {
-    id: "integrations",
-    name: "Integrations and event-driven workflows",
-    placement: "lead",
-    problem: "More of the product now depends on other systems, and those connections are hard to trust.",
-    fits: "Teams taking in third-party data, or passing work between services, where duplicates and partial failure matter as volume grows.",
-    work: [
-      "Third-party APIs, ingestion, and normalizing inconsistent data.",
-      "Messaging and asynchronous processing.",
-      "Retries, idempotency, and duplicate handling.",
-      "Outbox or event-driven patterns when they fit, plus failure handling you can see.",
-    ],
-    aim: "Integrations that fail visibly, and that do not apply the same work twice.",
-  },
-  {
-    id: "redis",
-    name: "Redis and distributed coordination",
-    placement: "related",
-    problem: "You need caching, short-lived state, or coordination, and you need to know when Redis is the wrong tool.",
-    fits: "A specific bottleneck or coordination problem, not a general scaling plan.",
-    work: [
-      "Caching, rate limits, and short-lived state.",
-      "Distributed locks, with their limits written down.",
-      "Queues or work coordination where they earn a place.",
-      "Invalidation and the consistency trade-offs that come with them.",
-    ],
-    aim: "Redis used for a named problem, not as a default answer to load.",
-  },
-  {
-    id: "aws",
-    name: "AWS and production readiness",
-    placement: "related",
-    problem: "The product is ahead of how it is deployed, or production is too hard to see to grow with confidence.",
-    fits: "Teams that want a review or hands-on help with how the software is deployed and operated as it grows.",
-    work: [
-      "AWS architecture and deployment reviews, including RDS, ECS or EKS, load balancing, and CloudFront where they are relevant.",
-      "Infrastructure-as-code reviews and Terraform implementation.",
-      "Logging, metrics, traces, and alerting, including an OpenTelemetry plan when it helps.",
-      "Operational readiness and failure-mode reviews.",
-    ],
-    aim: "A deployment and observability setup the team can operate, matched to how the system actually runs.",
+    value: 13,
+    suffix: "+",
+    display: "13+",
+    label: "Projects & Products Delivered",
   },
 ];
 
-export const contactTopics = [
-  ...services.map((service) => ({ value: service.id, label: service.name })),
+export const problems: { text: string; image: string }[] = [
   {
-    value: "not-sure",
-    label: "Not sure yet — the product is outgrowing the system",
+    text: "Small projects that don't fit big-agency budgets",
+    image: "/elements/budget.png",
+  },
+  {
+    text: "Potential projects lost to delivery capacity or expertise gaps",
+    image: "/elements/shelf.png",
+  },
+  {
+    text: "Promising ideas stuck before development",
+    image: "/elements/idea.png",
+  },
+  {
+    text: "Projects draining more time and budget than planned",
+    image: "/elements/bar-chart.png",
+  },
+  {
+    text: "Uncertainty around what to build and which technology to choose",
+    image: "/elements/path.png",
+  },
+  {
+    text: "Engineering teams needing stronger technical direction",
+    image: "/elements/technical-support.png",
+  },
+];
+
+export const offerings: Offering[] = [
+  {
+    id: "technology-strategy",
+    name: "Technology Strategy & Advisory",
+    summary: "Make smarter technology decisions.",
+    items: [
+      "Technology roadmaps & digital transformation",
+      "Product discovery & feasibility studies",
+      "Technology selection & build-vs-buy decisions",
+      "Independent vendor & technical assessments",
+      "SaaS product strategy & launch planning",
+    ],
+  },
+  {
+    id: "technology-leadership",
+    name: "Technology Leadership & Delivery",
+    summary: "Get the right expertise without full-time overhead.",
+    items: [
+      "Project & product delivery management",
+      "Technical team extension & mentoring",
+      "Project recovery & delivery improvement",
+      "Ongoing engineering, maintenance & support",
+      "Fractional CTO & engineering leadership",
+    ],
+  },
+  {
+    id: "digital-solutions",
+    name: "Digital Solutions & Engineering",
+    summary: "Turn ideas into working solutions.",
+    items: [
+      "Websites, web apps & custom platforms",
+      "MVPs & SaaS product development",
+      "Business process digitisation & automation",
+      "API integrations & connected systems",
+      "Software modernisation & optimisation",
+      "AI-enabled tools & workflows",
+    ],
+  },
+  {
+    id: "technology-partnerships",
+    name: "Technology Partnerships",
+    summary: "Extend your capabilities and deliver more.",
+    items: [
+      "White-label development for agencies",
+      "Technical scoping & project estimation",
+      "End-to-end implementation partnerships",
+      "Specialist technology support for existing teams",
+      "Flexible project-based & ongoing partnerships",
+    ],
+  },
+];
+
+export const extras: Offering[] = [
+  { id: "marketing-brand", name: "Marketing & Brand Advisory", summary: "", items: [] },
+  { id: "brand-identity", name: "Brand Identity & Starter Kits", summary: "", items: [] },
+  { id: "content-creation", name: "Content Creation & Support", summary: "", items: [] },
+  { id: "digital-design", name: "Digital Design & Creative Support", summary: "", items: [] },
+];
+
+export const partners: Engagement[] = [
+  {
+    title: "Startups, Founders & CTOs",
+    body: "Make smarter technology decisions and turn ideas into market-ready products.",
+  },
+  {
+    title: "Creative & Digital Agencies",
+    body: "Expand your services and take on more client projects with a trusted technology partner.",
+  },
+  {
+    title: "Small, Medium & Growing Businesses",
+    body: "Streamline operations, automate workflows and modernize your systems.",
+  },
+  {
+    title: "Digital & Engineering Teams",
+    body: "Fill expertise gaps, extend team capacity and keep delivery on track.",
+  },
+];
+
+export const engagements: Engagement[] = [
+  {
+    title: "Technical Discovery",
+    body: "Understand the problem, evaluate options and leave with actionable recommendations.",
+  },
+  {
+    title: "Consultation & Strategy",
+    body: "Get expert input on a specific technical or product challenge.",
+  },
+  {
+    title: "One-time or Project-Based Engagement",
+    body: "Define the scope, timeline and deliverables upfront.",
+  },
+  {
+    title: "Monthly Retainer",
+    body: "Access ongoing engineering, technical support and improvements.",
+  },
+  {
+    title: "Implementation Partnership",
+    body: "Move from strategy and planning to building and launch.",
+  },
+  {
+    title: "White-Label Partnership",
+    body: "Deliver technology projects under your agency's brand.",
+  },
+  {
+    title: "Team Extension",
+    body: "Add experienced technical or project leadership capacity to your existing team.",
+  },
+  {
+    title: "Fractional Leadership",
+    body: "Get experienced technology leadership without a full-time hire.",
   },
 ];
 
 export const projects: Project[] = [
   {
+    slug: "messaging-system",
     title: "Messaging system",
+    line: "A messaging system. The architecture stays unpublished.",
     summary:
       "I built a messaging system. The architecture, scale, and business context are not published here.",
     tags: ["Product systems", "Messaging"],
+    image: "/projects/messaging app.png",
     featured: true,
     sortOrder: 1,
   },
   {
+    slug: "offer-engine",
     title: "Offer engine",
+    line: "An offer engine. The implementation stays unpublished.",
     summary:
       "I built an offer engine. Implementation detail stays off this page until it can be described without exposing confidential work.",
     tags: ["Product systems"],
+    image: "/projects/Offer Engine.png",
     featured: true,
     sortOrder: 2,
   },
   {
+    slug: "gpay-activity-studio",
     title: "GPay Activity Studio",
+    line: "A browser tool for spend, transfer, merchant, and trend views.",
     summary:
       "A one-page tool that reads a Google Pay Takeout export, or a CSV already extracted from one, and turns it into spend, transfer, merchant, and trend views. Parsing and the charts run in the page.",
     context: "A personal project, not a client engagement.",
     tags: ["Data", "Browser tool"],
     href: "https://spend-analyser-gpay.biradarakshay.com",
     linkLabel: "Open GPay Activity Studio",
+    image: "/projects/Gpay studio.png",
     featured: true,
     sortOrder: 3,
   },
   {
+    slug: "qr-generator",
     title: "QR generator",
+    line: "A browser page that turns text or a link into a QR code.",
     summary:
       "A page that turns any text or link into a QR code in the browser. The code stores that text directly. Nothing is uploaded, and scanning it does not redirect through the site.",
     context: "A personal tool. The page is static.",
     tags: ["Browser tool"],
     href: "https://static-hosting.biradarakshay.com",
     linkLabel: "Open the QR generator",
+    image: "/projects/QR Code generator.png",
     featured: true,
     sortOrder: 4,
   },
 ];
 
-export const steps: Step[] = [
-  {
-    title: "Understand",
-    body: "Clarify the business context, the constraints, the current architecture, and what success means.",
-  },
-  {
-    title: "Diagnose",
-    body: "Find the main bottlenecks, risks, and trade-offs before choosing tools.",
-  },
-  {
-    title: "Plan",
-    body: "Agree on a scoped approach, the milestones, and what will not be done.",
-  },
-  {
-    title: "Build or advise",
-    body: "Implement, review, or guide the work we agreed.",
-  },
-  {
-    title: "Validate and hand over",
-    body: "Test the result, write down the decisions that matter, and make the next step obvious.",
-  },
-];
-
-export const engagements: Engagement[] = [
-  {
-    title: "Focused project",
-    body: "A clearly scoped feature, integration, migration, or improvement to a system that needs to grow.",
-  },
-  {
-    title: "Technical discovery",
-    body: "Investigate a problem, make the trade-offs explicit, and leave you with recommendations you can act on.",
-  },
-  {
-    title: "Ongoing engineering support",
-    body: "Recurring senior help for a team that needs the experience without a full-time hire.",
-  },
-  {
-    title: "Implementation partnership",
-    body: "Work with your team from the design through delivery, for an agreed scope.",
-  },
+export const exposure: Logo[] = [
+  { src: "/logos/thoughtworks.svg", alt: "Thoughtworks" },
+  { src: "/logos/infosys.svg", alt: "Infosys" },
+  { src: "/logos/jio.svg", alt: "Jio" },
+  { src: "/logos/nach.svg", alt: "NACH, National Automated Clearing House" },
+  { src: "/logos/melento.svg", alt: "Melento" },
+  { src: "/logos/singapore-government.jpg", alt: "Singapore Government" },
+  { src: "/logos/icici.svg", alt: "ICICI Bank" },
 ];
 
 export const about = {
+  title: "About Akshay",
+  description:
+    "About Akshay Biradar: 7+ years solving technology challenges across enterprises, SaaS, and IT services, from strategy through delivery.",
+  quote: "Good technology starts with understanding the problem.",
   paragraphs: [
-    "I am a Senior Software Engineer. I have been building software since May 2019, mostly the parts that have to carry a product as it grows: services, data, integrations, and enough operational clarity to see when they fail.",
-    "I work inside codebases that already exist. The useful part is judgment — what is actually failing, what can wait, and what should not be rebuilt — explained so a founder and an engineer can make the same decision.",
+    "Akshay brings 7+ years of experience solving technology challenges across global enterprises, SaaS platforms and IT services businesses. Having worked across government technology, fintech, retail, FMCG and enterprise IT, and delivered projects across the US, India, Singapore and Thailand, he brings a broad understanding of how different businesses use technology to solve problems and grow.",
+    "His experience spans the entire technology journey: from ideation and client consulting to strategy, product development and large-scale engineering delivery. Along the way, he has built products, shaped solutions, guided technical decisions and led large engineering teams through complex projects.",
+    "But technology expertise is only part of the equation. Akshay focuses on understanding the business problem first, identifying what genuinely needs to change and helping teams make decisions they can stand behind. That means working with existing systems where possible, making trade-offs explicit, building for maintainability and reliability, and giving teams the clarity to deliver well.",
+    "Whether you need direction on what to build, help solving a complex technical challenge, or the expertise to move a project forward, Akshay brings together technical depth, business understanding, hands-on execution and the ability to mentor engineering teams to deliver with greater clarity and confidence.",
   ],
-  points: [
-    "Trade-offs written down, not implied.",
-    "Maintainability, reliability, and enough observability to see a failure.",
-    "Delivery with the team you already have.",
-  ],
+  portrait: "/akshay.jpg",
 };
 
+const topicSource = [...offerings, ...extras];
+
+export const contactTopics = [
+  ...topicSource.map((item) => ({ value: item.id, label: item.name })),
+  { value: "not-sure", label: "Not sure yet" },
+];
+
 export const nav = [
-  { href: "#services", label: "Services" },
-  { href: "#work", label: "Work" },
-  { href: "#approach", label: "Approach" },
-  { href: "#about", label: "About" },
+  { href: "/about", label: "About" },
+  { href: "/#services", label: "Services & Offerings" },
+  { href: "/#work", label: "Selected Projects" },
 ];
 
 export function discussHref(serviceId: string): string {
   return `/?topic=${encodeURIComponent(serviceId)}#contact`;
 }
 
+export function projectPath(slug: string): string {
+  return `/work/${slug}`;
+}
+
 export const contactCopy = {
-  reply:
-    "I read every enquiry and reply to the work email you enter. Phone and budget can be left blank.",
+  lede: "Have a project in mind, a challenge to solve, or just want to explore possibilities? We'd love to hear from you.",
   faster: "For a faster reply:",
   receivedTitle: "I've received your request",
   receivedBody: "I'll reply to the email address you entered.",

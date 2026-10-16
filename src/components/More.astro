@@ -1,0 +1,24 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import { extras } from "../content/site";
+---
+
+<section class="section" id="more" aria-labelledby="more-title">
+  <div class="wrap">
+    <SectionHeading
+      id="more-title"
+      title="And There’s More…"
+      lede="The right mix of strategic and creative support to grow your business."
+    />
+    <ul class="extra-list">
+      {extras.map((item) => (
+        <li>
+          <h3>{item.name}</h3>
+        </li>
+      ))}
+    </ul>
+    <p class="actions">
+      <a class="button" href="/#contact" data-track="cta_click" data-track-location="more">Grow Your Brand With Us</a>
+    </p>
+  </div>
+</section>

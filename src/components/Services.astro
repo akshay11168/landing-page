@@ -1,65 +1,40 @@
 ---
 import SectionHeading from "./SectionHeading.astro";
-import { discussHref, services } from "../content/site";
-
-const lead = services.filter((service) => service.placement === "lead");
-const related = services.filter((service) => service.placement === "related");
+import { offerings } from "../content/site";
 ---
 
 <section class="section" id="services" aria-labelledby="services-title">
   <div class="wrap">
     <SectionHeading
-      index="03"
       id="services-title"
-      title="What I can help with"
-      lede="The useful work is the software that has to carry the product as it grows. An engagement starts by understanding that problem and choosing a scope."
+      title="Whatever The Gap, We'll Help You Bridge It."
+      lede="Your ambition deserves a flexible ecosystem."
+      singleLine
     />
-    <div class="service-list">
+    <div class="offering-grid">
       {
-        lead.map((service) => (
-          <article class="service" id={service.id} aria-labelledby={`service-${service.id}`}>
-            <div>
-              <h3 id={`service-${service.id}`}>{service.name}</h3>
-              <p class="service-problem">{service.problem}</p>
-            </div>
-            <div>
-              <p class="fits"><span>Fits when</span> {service.fits}</p>
-              <details class="service-scope" data-disclose>
-                <summary>What this includes</summary>
+        offerings.map((offering) => (
+          <article class="flip offering" id={offering.id} tabindex="0" aria-labelledby={`offering-${offering.id}`}>
+            <div class="flip-inner">
+              <div class="flip-face flip-front stack">
+                <h3 id={`offering-${offering.id}`}>{offering.name}</h3>
+                <p class="service-problem">{offering.summary}</p>
+              </div>
+              <div class="flip-face flip-back">
+                <p class="flip-kicker">{offering.name}</p>
                 <ul>
-                  {service.work.map((item) => (
+                  {offering.items.map((item) => (
                     <li>{item}</li>
                   ))}
                 </ul>
-              </details>
-              <p class="aim"><span>The aim</span> {service.aim}</p>
+              </div>
             </div>
-            <p class="service-cta">
-              <a href={discussHref(service.id)} data-track="cta_click" data-track-location={service.id}>Discuss this challenge</a>
-            </p>
           </article>
         ))
       }
     </div>
-    <div class="related">
-      <h3 class="related-title">Related, when they fit</h3>
-      <p class="lede">
-        Redis and AWS show up inside the work above. They are not a separate pitch, and Redis is not the answer to every scaling problem.
-      </p>
-      <div class="related-grid">
-        {
-          related.map((service) => (
-            <article id={service.id} aria-labelledby={`service-${service.id}`}>
-              <h3 id={`service-${service.id}`}>{service.name}</h3>
-              <p>{service.problem}</p>
-              <p class="aim"><span>The aim</span> {service.aim}</p>
-              <p class="service-cta">
-                <a href={discussHref(service.id)} data-track="cta_click" data-track-location={service.id}>Discuss this challenge</a>
-              </p>
-            </article>
-          ))
-        }
-      </div>
-    </div>
+    <p class="actions">
+      <a class="button" href="/#contact" data-track="cta_click" data-track-location="services">Discuss The Challenges</a>
+    </p>
   </div>
 </section>

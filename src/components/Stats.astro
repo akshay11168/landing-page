@@ -1,0 +1,21 @@
+---
+import { stats } from "../content/site";
+---
+
+<section class="stats-band" aria-label="Experience">
+  <div class="wrap">
+    <ul class="stats">
+      {
+        stats.map((stat) => (
+          <li>
+            <p class="stat-head">
+              <span class="stat-value" data-count={stat.value} data-suffix={stat.suffix}>{stat.display}</span>
+              <span class="stat-label">{stat.label}</span>
+            </p>
+            {stat.detail && <p class="stat-detail">{stat.detail}</p>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

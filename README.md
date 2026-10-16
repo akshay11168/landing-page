@@ -82,7 +82,7 @@ The workflow runs tests, the typecheck, and the production build. If `PUBLIC_WEB
 
 ## Search and measurement
 
-The production page already has one title and description, a canonical URL on `https://www.biradarakshay.com`, Open Graph and social metadata, one H1, crawlable copy, `robots.txt`, a sitemap of the homepage only, a noindex 404, and structured data for the person and the published services. That data does not include ratings, reviews, or an address.
+The production page already has one title and description, a canonical URL on `https://www.biradarakshay.com`, Open Graph and social metadata, one H1, crawlable copy, `robots.txt`, a sitemap of the home page, the about page, and each project page, a noindex 404, and structured data for the person and the published services. A project page uses that project's title, summary, and image. That data does not include ratings, reviews, or an address. The share image is `public/og.png`.
 
 Separate service pages, articles, and case studies are not added until there is a distinct page's worth of public material. Splitting the current sections into thin pages would not help a buyer.
 
@@ -113,12 +113,15 @@ Two cookieless tools, each for a different job. Neither is loaded until its valu
 | Event | When it is sent |
 |---|---|
 | `project_click` | A visitor opens a project that has a public link |
+| `project_scroll` | A visitor uses a project-row arrow. `location` is `previous` or `next` |
 | `cta_click` | A visitor uses a main call to action or “Discuss this challenge” |
 | `enquiry_start` | The first time a visitor focuses the enquiry form on that page load |
 | `enquiry_success` | Web3Forms confirms the enquiry was accepted. Once per accepted submit. A failed submit or the email-app path does not count |
-| `email_click` | A visitor clicks an email address |
+| `email_click` | A visitor clicks an email address. `location` is `contact`, `received`, or `footer` |
+| `phone_click` | A visitor clicks the phone number. `location` is `contact` or `received` |
+| `whatsapp_click` | A visitor clicks WhatsApp. `location` is `contact` or `received` |
 
-Properties are limited to `location`, `project`, and `path`.
+Properties are limited to `location`, `project`, and `path`. The phone number and WhatsApp address are not sent.
 
 1. Create a site in [Umami Cloud](https://cloud.umami.is) or on a self-hosted Umami.
 2. Add the Actions secret `PUBLIC_UMAMI_WEBSITE_ID`.

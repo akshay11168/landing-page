@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { analyticsProps, isAnalyticsHost } from "../src/lib/analytics.ts";
-import { contactCopy, contactTopics, projects, services, site } from "../src/content/site.ts";
+import { contactCopy, contactTopics, offerings, projects, site } from "../src/content/site.ts";
 import { mailtoUrl, validateEnquiry } from "../src/lib/enquiry.ts";
 import { externalUrl } from "../src/lib/links.ts";
 import { llmsTxt, structuredData } from "../src/lib/seo.ts";
@@ -10,10 +10,10 @@ const validBase = {
   name: "Ada",
   email: "ada@product.example",
   company: "",
-  topic: "backend-engineering",
-  topicLabel: "Services and APIs",
-  message: "The checkout API double-charges when a webhook retries.",
-  phone: "",
+  topic: "technology-strategy",
+  topicLabel: "Technology Strategy & Advisory",
+  message: "",
+  phone: "+919619375391",
   budget: "",
 };
 
@@ -25,17 +25,16 @@ describe("public content", () => {
     assert.equal(site.portfolioUrl, "");
   });
 
-  it("features four lead services and keeps Redis and AWS related", () => {
-    assert.equal(services.filter((service) => service.placement === "lead").length, 4);
+  it("publishes the four offerings from the brief", () => {
     assert.deepEqual(
-      services.filter((service) => service.placement === "related").map((service) => service.id),
-      ["redis", "aws"],
+      offerings.map((offering) => offering.id),
+      ["technology-strategy", "technology-leadership", "digital-solutions", "technology-partnerships"],
     );
   });
 
-  it("offers every service as a contact topic", () => {
-    for (const service of services) {
-      assert.ok(contactTopics.some((topic) => topic.value === service.id));
+  it("offers every offering as a contact topic", () => {
+    for (const offering of offerings) {
+      assert.ok(contactTopics.some((topic) => topic.value === offering.id));
     }
   });
 
@@ -61,7 +60,7 @@ describe("public content", () => {
   });
 
   it("does not include placeholder or invented social proof", () => {
-    const blob = JSON.stringify({ site, projects, services, contactTopics }).toLowerCase();
+    const blob = JSON.stringify({ site, projects, offerings, contactTopics }).toLowerCase();
     for (const banned of ["lorem ipsum", "example.com", "testimonial", "10x", "guaranteed"]) {
       assert.equal(blob.includes(banned), false, banned);
     }
@@ -69,28 +68,29 @@ describe("public content", () => {
 });
 
 describe("enquiry validation", () => {
-  it("accepts a submission with phone and budget left blank", () => {
-    assert.deepEqual(validateEnquiry(validBase), {});
+  it("accepts a submission when company, topic, and budget are blank", () => {
+    assert.deepEqual(validateEnquiry({ ...validBase, company: "", topic: "", budget: "" }), {});
   });
 
-  it("requires name, work email, topic, and description", () => {
+  it("requires name, email, and phone", () => {
     const errors = validateEnquiry({
       ...validBase,
       name: " ",
       email: "not-an-email",
+      phone: "",
       topic: "",
       message: "",
     });
     assert.ok(errors.name);
     assert.ok(errors.email);
-    assert.ok(errors.topic);
-    assert.ok(errors.message);
-    assert.equal(errors.phone, undefined);
+    assert.ok(errors.phone);
+    assert.equal(errors.topic, undefined);
+    assert.equal(errors.message, undefined);
   });
 
-  it("rejects a partial phone number and accepts a blank one", () => {
+  it("rejects a partial phone number and a blank one", () => {
     assert.ok(validateEnquiry({ ...validBase, phone: "12" }).phone);
-    assert.equal(validateEnquiry({ ...validBase, phone: "" }).phone, undefined);
+    assert.ok(validateEnquiry({ ...validBase, phone: "" }).phone);
   });
 
   it("requires a real work email", () => {
@@ -105,10 +105,10 @@ describe("enquiry validation", () => {
     assert.ok(href.startsWith("mailto:enquiry@biradarakshay.com?"));
     const body = decodeURIComponent(href.split("body=")[1] ?? "");
     assert.match(body, /Name: Ada/);
-    assert.match(body, /Help with: Services and APIs/);
-    assert.doesNotMatch(body, /Phone:/);
+    assert.match(body, /Help with: Technology Strategy & Advisory/);
+    assert.match(body, /Phone: \+919619375391/);
     assert.doesNotMatch(body, /Budget/);
-    assert.match(body, /double-charges/);
+    assert.doesNotMatch(body, /Company/);
   });
 
   it("includes a phone number only when one was provided", () => {
@@ -135,7 +135,7 @@ describe("search and assistant metadata", () => {
     assert.ok(types.includes("Person"));
     assert.ok(types.includes("WebSite"));
     assert.ok(types.includes("WebPage"));
-    assert.equal(types.filter((type) => type === "Service").length, services.length);
+    assert.equal(types.filter((type) => type === "Service").length, offerings.length);
 
     const person = graph.find((node) => node["@type"] === "Person");
     assert.equal(person?.name, "Akshay Biradar");
@@ -157,6 +157,30 @@ describe("search and assistant metadata", () => {
     assert.equal(studio?.name, "GPay Activity Studio");
     assert.equal(studio?.url, "https://spend-analyser-gpay.biradarakshay.com/");
     assert.deepEqual(studio?.author, { "@id": "https://www.biradarakshay.com/#person" });
+
+    const home = graph.find((node) => node["@type"] === "WebPage") as { primaryImageOfPage?: { url?: string } };
+    assert.equal(home.primaryImageOfPage?.url, "https://www.biradarakshay.com/og.png");
+  });
+
+  it("gives a project page its own title, description, and image", () => {
+    const graph = structuredData("/work/gpay-activity-studio")["@graph"] as Array<Record<string, unknown>>;
+    const page = graph.find((node) => node["@type"] === "WebPage") as {
+      name?: string;
+      description?: string;
+      primaryImageOfPage?: { url?: string; width?: number };
+    };
+    assert.equal(page.name, "GPay Activity Studio | Akshay Biradar");
+    assert.match(page.description ?? "", /spend, transfer, merchant, and trend/);
+    assert.equal(
+      page.primaryImageOfPage?.url,
+      "https://www.biradarakshay.com/projects/Gpay%20studio.png",
+    );
+    assert.equal(page.primaryImageOfPage?.width, undefined);
+
+    const aboutPage = structuredData("/about")["@graph"].find((node) => node["@type"] === "WebPage") as {
+      name?: string;
+    };
+    assert.equal(aboutPage.name, "About Akshay | Akshay Biradar");
   });
 
   it("gives assistants the public facts and the limits of those facts", () => {
@@ -165,9 +189,9 @@ describe("search and assistant metadata", () => {
     assert.match(text, /enquiry@biradarakshay\.com/);
     assert.match(text, /akshay11168@gmail\.com/);
     assert.match(text, /\+91 96193 75391/);
-    assert.match(text, /https:\/\/www\.biradarakshay\.com\/#system-design/);
+    assert.match(text, /https:\/\/www\.biradarakshay\.com\/#technology-strategy/);
     assert.match(text, /https:\/\/spend-analyser-gpay\.biradarakshay\.com/);
-    assert.match(text, /No public page/);
+    assert.match(text, /\/work\/messaging-system/);
     assert.match(text, /does not publish/);
     assert.doesNotMatch(text, /lorem ipsum|example\.com|10x|guaranteed/i);
   });

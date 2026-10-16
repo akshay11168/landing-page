@@ -1,0 +1,9 @@
+---
+import About from "../components/About.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { about } from "../content/site";
+---
+
+<BaseLayout title={`${about.title} | Akshay Biradar`} description={about.description}>
+  <About />
+</BaseLayout>

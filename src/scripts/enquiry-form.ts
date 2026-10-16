@@ -32,7 +32,7 @@ function readFields(form: HTMLFormElement): EnquiryFields {
     (form.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(`#${id}`)?.value ??
       "");
   const topic = form.querySelector<HTMLSelectElement>("#topic");
-  const topicLabel = topic?.selectedOptions[0]?.textContent?.trim() ?? "";
+  const topicLabel = topic?.value ? (topic.selectedOptions[0]?.textContent?.trim() ?? "") : "";
   return {
     name: value("name"),
     email: value("email"),
@@ -93,7 +93,9 @@ async function sendEnquiry(form: HTMLFormElement, accessKey: string): Promise<vo
   try {
     const payload: Record<string, string> = {
       access_key: accessKey,
-      subject: `Project enquiry: ${fields.topicLabel}`,
+      subject: fields.topic.trim()
+        ? `Project enquiry: ${fields.topicLabel}`
+        : "Project enquiry from www.biradarakshay.com",
       from_name: form.dataset.fromName ?? "Akshay Biradar website",
       name: fields.name.trim(),
       email: fields.email.trim(),
@@ -103,7 +105,7 @@ async function sendEnquiry(form: HTMLFormElement, accessKey: string): Promise<vo
       botcheck: "",
     };
     if (fields.company.trim()) payload.company = fields.company.trim();
-    if (fields.phone.trim()) payload.phone = fields.phone.trim();
+    payload.phone = fields.phone.trim();
     if (fields.budget.trim()) payload.budget = fields.budget.trim();
 
     const response = await fetch("https://api.web3forms.com/submit", {

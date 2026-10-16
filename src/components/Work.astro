@@ -1,53 +1,49 @@
 ---
 import SectionHeading from "./SectionHeading.astro";
-import { projects } from "../content/site";
-import { externalUrl } from "../lib/links";
+import { projectPath, projects } from "../content/site";
 
-const ordered = [...projects].sort((a, b) => a.sortOrder - b.sortOrder);
+const ordered = [...projects].sort((a, b) => {
+  const withDemo = Number(Boolean(b.href)) - Number(Boolean(a.href));
+  return withDemo !== 0 ? withDemo : a.sortOrder - b.sortOrder;
+});
 ---
 
 <section class="section" id="work" aria-labelledby="work-title">
   <div class="wrap">
     <SectionHeading
-      index="04"
       id="work-title"
-      title="Selected work"
-      lede="Two product systems, described only as far as I can say in public, and two things I have shipped under my own name. A card has a link only when there is a real page to open."
+      title="Solutions in Action: Selected Projects"
+      singleLine
     />
-    <ol class="work-list">
+    <div class="work-rail">
+      <button type="button" class="work-arrow" data-work-dir="-1" data-track="project_scroll" data-track-location="previous" aria-label="Show earlier projects" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14.5 5.5 8 12l6.5 6.5" />
+        </svg>
+      </button>
+      <ol class="work-scroller">
       {
-        ordered.map((project) => {
-          const href = externalUrl(project.href);
-          return (
-            <li>
-              <article class="work-card" aria-labelledby={`work-${project.sortOrder}`}>
-                <p class="work-kicker">{project.context ?? "Product system"}</p>
-                <h3 id={`work-${project.sortOrder}`}>{project.title}</h3>
-                <p>{project.summary}</p>
-                <ul class="tags" aria-label="Topics">
-                  {project.tags.map((tag) => (
-                    <li>{tag}</li>
-                  ))}
-                </ul>
-                {href && project.linkLabel && (
-                  <p class="service-cta">
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-track="project_click"
-                      data-track-project={project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}
-                    >
-                      {project.linkLabel}
-                      <span class="sr-only"> (opens in a new tab)</span>
-                    </a>
-                  </p>
-                )}
-              </article>
-            </li>
-          );
-        })
+        ordered.map((project) => (
+          <li>
+            <a
+              class="work-card"
+              href={projectPath(project.slug)}
+              data-track="project_click"
+              data-track-project={project.slug}
+            >
+              <img class="work-thumb" src={encodeURI(project.image)} alt="" />
+              <h3>{project.title}</h3>
+              <p>{project.line}</p>
+            </a>
+          </li>
+        ))
       }
-    </ol>
+      </ol>
+      <button type="button" class="work-arrow" data-work-dir="1" data-track="project_scroll" data-track-location="next" aria-label="Show more projects">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9.5 5.5 16 12l-6.5 6.5" />
+        </svg>
+      </button>
+    </div>
   </div>
 </section>

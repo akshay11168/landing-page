@@ -1,0 +1,33 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import { partners } from "../content/site";
+---
+
+<section class="section" id="partners" aria-labelledby="partners-title">
+  <div class="wrap">
+    <SectionHeading
+      id="partners-title"
+      title="Who We Partner With"
+      lede="Different businesses. Different needs. One partner."
+    />
+    <ul class="partner-list">
+      {
+        partners.map((partner) => (
+          <li class="flip" tabindex="0">
+            <div class="flip-inner">
+              <div class="flip-face flip-front stack">
+                <h3>{partner.title}</h3>
+              </div>
+              <div class="flip-face flip-back stack">
+                <p>{partner.body}</p>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="actions">
+      <a class="button" href="/#contact" data-track="cta_click" data-track-location="partners">Let’s Team Up</a>
+    </p>
+  </div>
+</section>

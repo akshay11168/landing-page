@@ -1,24 +1,48 @@
-import { hero, projects, services, site, steps } from "../content/site.ts";
+import { about, engagements, exposure, extras, hero, offerings, projects, site, stats } from "../content/site.ts";
 
-const pageUrl = `${site.url}/`;
+const home = `${site.url}/`;
 
 function nodeId(fragment: string): string {
-  return `${pageUrl}#${fragment}`;
+  return `${home}#${fragment}`;
 }
 
 /** Topics already stated on the page. Do not add specialties that are not published. */
 const knowsAbout = [
-  "Software at scale",
-  "System design",
-  ...hero.expertise,
-  "NestJS",
-  "Integrations",
-  "Event-driven workflows",
-  "Production readiness",
+  ...offerings.map((offering) => offering.name),
+  ...extras.map((extra) => extra.name),
 ];
 
-export function structuredData() {
+const shareImage = `${site.url}/og.png`;
+
+function pageCopy(pathname: string): { name: string; description: string; image: string } {
+  const project = projects.find(
+    (item) => pathname === `/work/${item.slug}` || pathname === `/work/${item.slug}/`,
+  );
+  if (project) {
+    return {
+      name: `${project.title} | ${site.brandName}`,
+      description: project.summary,
+      image: new URL(project.image, site.url).href,
+    };
+  }
+  if (pathname === "/about" || pathname === "/about/") {
+    return {
+      name: `${about.title} | ${site.brandName}`,
+      description: about.description,
+      image: shareImage,
+    };
+  }
+  return {
+    name: site.title,
+    description: site.description,
+    image: shareImage,
+  };
+}
+
+export function structuredData(pathname = "/") {
   const sameAs = [site.linkedin, site.github];
+  const pageUrl = new URL(pathname, site.url).href;
+  const page = pageCopy(pathname);
 
   return {
     "@context": "https://schema.org",
@@ -26,7 +50,7 @@ export function structuredData() {
       {
         "@type": "WebSite",
         "@id": nodeId("website"),
-        url: pageUrl,
+        url: home,
         name: site.brandName,
         description: site.description,
         inLanguage: "en",
@@ -34,19 +58,18 @@ export function structuredData() {
       },
       {
         "@type": "WebPage",
-        "@id": nodeId("webpage"),
+        "@id": pageUrl,
         url: pageUrl,
-        name: site.title,
-        description: site.description,
+        name: page.name,
+        description: page.description,
         inLanguage: "en",
         isPartOf: { "@id": nodeId("website") },
         about: { "@id": nodeId("person") },
         mainEntity: { "@id": nodeId("person") },
         primaryImageOfPage: {
           "@type": "ImageObject",
-          url: `${site.url}/og.svg`,
-          width: 1200,
-          height: 630,
+          url: page.image,
+          ...(page.image === shareImage ? { width: 1200, height: 630 } : {}),
         },
       },
       {
@@ -55,21 +78,21 @@ export function structuredData() {
         name: site.brandName,
         jobTitle: site.jobTitle,
         description: site.positioning,
-        url: pageUrl,
+        url: `${site.url}/about`,
         email: site.email,
         telephone: site.phoneTel,
-        image: `${site.url}/og.svg`,
+        image: `${site.url}${about.portrait}`,
         sameAs,
         knowsAbout,
         knowsLanguage: "en",
       },
-      ...services.map((service) => ({
+      ...offerings.map((service) => ({
         "@type": "Service",
         "@id": nodeId(service.id),
         name: service.name,
         serviceType: service.name,
-        description: `${service.problem} ${service.aim}`,
-        url: `${pageUrl}#${service.id}`,
+        description: `${service.summary} ${service.items.join(". ")}.`,
+        url: `${home}#${service.id}`,
         provider: { "@id": nodeId("person") },
       })),
       {
@@ -99,8 +122,8 @@ export function structuredData() {
 }
 
 /** JSON-LD safe to embed in a script tag. */
-export function structuredDataJson(): string {
-  return JSON.stringify(structuredData()).replaceAll("<", "\\u003c");
+export function structuredDataJson(pathname = "/"): string {
+  return JSON.stringify(structuredData(pathname)).replaceAll("<", "\\u003c");
 }
 
 /**
@@ -108,24 +131,31 @@ export function structuredDataJson(): string {
  * Facts come from the public page. Limits are stated so a model does not fill them in.
  */
 export function llmsTxt(): string {
-  const serviceLines = services
+  const serviceLines = offerings
     .map(
       (service) =>
-        `- [${service.name}](${pageUrl}#${service.id}): ${service.problem} ${service.aim}`,
+        `- [${service.name}](${home}#${service.id}): ${service.summary} ${service.items.join("; ")}.`,
     )
     .join("\n");
+
+  const extraLines = extras.map((extra) => `- ${extra.name}`).join("\n");
 
   const projectLines = projects
     .slice()
     .sort((a, b) => a.sortOrder - b.sortOrder)
     .map((project) => {
-      const link = project.href ? ` ${project.href}` : " No public page.";
+      const page = `${site.url}/work/${project.slug}`;
+      const link = project.href ? ` Live page: ${project.href}` : "";
       const context = project.context ? ` ${project.context}` : "";
-      return `- ${project.title}:${context} ${project.summary}${link}`;
+      return `- [${project.title}](${page}):${context} ${project.summary}${link}`;
     })
     .join("\n");
 
-  const stepLines = steps.map((step) => `- ${step.title}: ${step.body}`).join("\n");
+  const wayLines = engagements.map((step) => `- ${step.title}: ${step.body}`).join("\n");
+  const statLines = stats
+    .map((stat) => `- ${stat.display} ${stat.label}${stat.detail ? `, ${stat.detail}` : ""}`)
+    .join("\n");
+  const logoLines = exposure.map((logo) => logo.alt).join(", ");
 
   return `# ${site.brandName}
 
@@ -133,31 +163,43 @@ export function llmsTxt(): string {
 
 ${site.positioning}
 
-${site.description}
+${hero.lede}
 
-- Site: ${pageUrl}
+- Site: ${home}
+- About: ${site.url}/about
 - Email: ${site.email}
 - Faster email: ${site.directEmail}
 - Phone and WhatsApp: ${site.phoneDisplay}
 - LinkedIn: ${site.linkedin}
 - GitHub: ${site.github}
 - Building software since ${site.careerStart}
-- Most often: ${hero.expertise.join(", ")}
+
+## Figures stated on the home page
+
+${statLines}
 
 ## Services
 
 ${serviceLines}
 
+## Also offered
+
+${extraLines}
+
 ## Selected work
 
 ${projectLines}
 
-## How an engagement runs
+## Ways to work together
 
-${stepLines}
+${wayLines}
+
+## Names shown in the exposure section
+
+${logoLines}
 
 ## What this site does not publish
 
-Client names, reviews, rates, availability, and location are not on this site. The messaging system and the offer engine are named only. Their architecture, scale, and business context are not published.
+Reviews, rates, availability, and location are not on this site. The messaging system and the offer engine are named only. Their architecture, scale, and business context are not published.
 `;
 }

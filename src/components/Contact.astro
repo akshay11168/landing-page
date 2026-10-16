@@ -8,22 +8,13 @@ const usesProvider = accessKey.trim().length > 0;
 <section class="section contact" id="contact" aria-labelledby="contact-title">
   <div class="wrap contact-grid">
     <div>
-      <p class="index-row">
-        <span class="index">07</span>
-      </p>
-      <h2 id="contact-title">Is the software keeping up with the product?</h2>
-      <p class="lede">
-        Tell me where it is straining. A short description is enough to see whether I can help, and what a sensible first scope would be.
-      </p>
-      <p>
-        <a class="mail-link" data-track="email_click" href={`mailto:${site.email}`}>Email {site.email}</a>
-      </p>
-      <p class="privacy">{contactCopy.reply}</p>
+      <h2 id="contact-title">Let's Talk</h2>
+      <p class="lede">{contactCopy.lede}</p>
       <p class="privacy">
-        {contactCopy.faster}{" "}
-        <a data-track="email_click" href={`mailto:${site.directEmail}`}>{site.directEmail}</a>,{" "}
-        <a href={`tel:${site.phoneTel}`}>call {site.phoneDisplay}</a>, or{" "}
-        <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer">
+        {contactCopy.faster} Email at{" "}
+        <a data-track="email_click" data-track-location="contact" href={`mailto:${site.directEmail}`}>{site.directEmail}</a>, call{" "}
+        <a data-track="phone_click" data-track-location="contact" href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a> or{" "}
+        <a data-track="whatsapp_click" data-track-location="contact" href={site.whatsappUrl} target="_blank" rel="noopener noreferrer">
           WhatsApp<span class="sr-only"> (opens in a new tab)</span>
         </a>{" "}
         the same number.
@@ -60,36 +51,31 @@ const usesProvider = accessKey.trim().length > 0;
         <p id="name-error" class="field-error" data-error data-error-for="name" hidden></p>
       </div>
       <div class="field">
-        <label for="email">Work email</label>
+        <label for="email">Email</label>
         <input id="email" name="email" type="email" autocomplete="email" required maxlength="200" />
         <p id="email-error" class="field-error" data-error data-error-for="email" hidden></p>
       </div>
       <div class="field">
-        <label for="company">Company or product <span class="optional">(optional)</span></label>
+        <label for="company">Company <span class="optional">(optional)</span></label>
         <input id="company" name="company" type="text" autocomplete="organization" maxlength="160" />
         <p id="company-error" class="field-error" data-error data-error-for="company" hidden></p>
       </div>
       <div class="field">
-        <label for="topic">What do you need help with?</label>
-        <select id="topic" name="topic" required>
+        <label for="topic">What do you need help with? <span class="optional">(optional)</span></label>
+        <select id="topic" name="topic">
           <option value="">Select one</option>
           {contactTopics.map((topic) => <option value={topic.value}>{topic.label}</option>)}
         </select>
         <p id="topic-error" class="field-error" data-error data-error-for="topic" hidden></p>
       </div>
-      <div class="field">
-        <label for="message">Brief project or problem description</label>
-        <textarea id="message" name="message" required maxlength="4000" rows="5"></textarea>
-        <p id="message-error" class="field-error" data-error data-error-for="message" hidden></p>
-      </div>
       <div class="field-row">
         <div class="field">
-          <label for="phone">Phone <span class="optional">(optional)</span></label>
-          <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="30" />
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" required maxlength="30" />
           <p id="phone-error" class="field-error" data-error data-error-for="phone" hidden></p>
         </div>
         <div class="field">
-          <label for="budget">Budget or timeline <span class="optional">(optional)</span></label>
+          <label for="budget">Budget <span class="optional">(optional)</span></label>
           <input id="budget" name="budget" type="text" maxlength="200" />
           <p id="budget-error" class="field-error" data-error data-error-for="budget" hidden></p>
         </div>
@@ -105,9 +91,9 @@ const usesProvider = accessKey.trim().length > 0;
     <p>{contactCopy.receivedBody}</p>
     <p>
       {contactCopy.faster}{" "}
-      <a data-track="email_click" href={`mailto:${site.directEmail}`}>{site.directEmail}</a>,{" "}
-      <a href={`tel:${site.phoneTel}`}>call {site.phoneDisplay}</a>, or{" "}
-      <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer">
+      <a data-track="email_click" data-track-location="received" href={`mailto:${site.directEmail}`}>{site.directEmail}</a>,{" "}
+      <a data-track="phone_click" data-track-location="received" href={`tel:${site.phoneTel}`}>call {site.phoneDisplay}</a>, or{" "}
+      <a data-track="whatsapp_click" data-track-location="received" href={site.whatsappUrl} target="_blank" rel="noopener noreferrer">
         WhatsApp<span class="sr-only"> (opens in a new tab)</span>
       </a>{" "}
       the same number.

@@ -25,13 +25,13 @@ const profiles = [
             </li>
           ))
         }
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="/#contact">Contact</a></li>
       </ul>
     </nav>
     <ul class="footer-links">
       <li>
         <address>
-          <a data-track="email_click" href={`mailto:${site.email}`}>{site.email}</a>
+          <a data-track="email_click" data-track-location="footer" href={`mailto:${site.email}`}>{site.email}</a>
         </address>
       </li>
       {

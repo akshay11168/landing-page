@@ -1,9 +1,12 @@
 const allowedEvents = new Set([
   "project_click",
+  "project_scroll",
   "cta_click",
   "enquiry_start",
   "enquiry_success",
   "email_click",
+  "phone_click",
+  "whatsapp_click",
 ]);
 
 const allowedKeys = ["location", "project", "path"] as const;

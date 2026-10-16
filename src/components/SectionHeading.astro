@@ -1,18 +1,17 @@
 ---
 interface Props {
-  index: string;
   title: string;
   id: string;
   lede?: string;
+  singleLine?: boolean;
+  /** Shrink a long one-line heading so it still fits the row. */
+  tight?: boolean;
 }
 
-const { index, title, id, lede } = Astro.props;
+const { title, id, lede, singleLine = false, tight = false } = Astro.props;
 ---
 
 <div class="section-heading">
-  <p class="index-row">
-    <span class="index">{index}</span>
-  </p>
-  <h2 id={id}>{title}</h2>
+  <h2 id={id} class:list={{ "single-line": singleLine, tight }}>{title}</h2>
   {lede && <p class="lede">{lede}</p>}
 </div>

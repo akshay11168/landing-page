@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { projects, site } from "../../content/site";
+import { externalUrl } from "../../lib/links";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const live = externalUrl(project.href);
+const description = project.summary.length <= 160 ? project.summary : `${project.summary.slice(0, 157)}...`;
+---
+
+<BaseLayout title={`${project.title} | ${site.brandName}`} description={description} image={project.image}>
+  <section class="section" aria-labelledby="project-title">
+    <div class="wrap project-detail">
+      <p class="index-row">
+        <a href="/#work">Selected Projects</a>
+      </p>
+      <h1 id="project-title">{project.title}</h1>
+      <img class="project-figure" src={encodeURI(project.image)} alt={project.title} />
+      {project.context && <p class="work-kicker">{project.context}</p>}
+      <p class="lede">{project.summary}</p>
+      <ul class="tags" aria-label="Topics">
+        {project.tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+      <div class="actions">
+        {
+          live && project.linkLabel && (
+            <a class="button" href={live} target="_blank" rel="noopener noreferrer" data-track="project_click" data-track-project={project.slug}>
+              {project.linkLabel}
+              <span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          )
+        }
+        <a class="button secondary" href="/#contact" data-track="cta_click" data-track-location={project.slug}>Start a conversation</a>
+        <a class="button secondary" href="/#work">Back to selected projects</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

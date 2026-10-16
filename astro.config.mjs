@@ -5,7 +5,10 @@ export default defineConfig({
   site: "https://www.biradarakshay.com",
   integrations: [
     sitemap({
-      filter: (page) => new URL(page).pathname === "/",
+      filter: (page) => {
+        const path = new URL(page).pathname;
+        return path !== "/404" && path !== "/404/" && path !== "/llms.txt" && path !== "/llms.txt/";
+      },
     }),
   ],
 });

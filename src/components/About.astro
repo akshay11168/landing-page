@@ -1,16 +1,31 @@
 ---
-import SectionHeading from "./SectionHeading.astro";
-import { about } from "../content/site";
+import { about, site } from "../content/site";
+import { externalUrl } from "../lib/links";
+
+const linkedin = externalUrl(site.linkedin);
 ---
 
-<section class="section" id="about" aria-labelledby="about-title">
+<section class="section about-page" aria-labelledby="about-title">
   <div class="wrap about-grid">
-    <SectionHeading index="06" id="about-title" title="About" />
     <div>
+      <h1 id="about-title">{about.title}</h1>
+      <p class="promise">“{about.quote}”</p>
       {about.paragraphs.map((paragraph) => <p class="lede">{paragraph}</p>)}
-      <ul class="about-points">
-        {about.points.map((point) => <li>{point}</li>)}
-      </ul>
+      <div class="actions">
+        <a class="button" href="/#contact" data-track="cta_click" data-track-location="about">Start a Conversation</a>
+        {
+          linkedin && (
+            <a class="button secondary" href={linkedin} target="_blank" rel="me noopener noreferrer">
+              Follow on LinkedIn
+              <span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          )
+        }
+        <a class="button secondary" href="/#work" data-track="cta_click" data-track-location="about-work">Take a look at Selected Projects</a>
+      </div>
     </div>
+    <figure class="portrait">
+      <img src={about.portrait} alt="Akshay Biradar" width="936" height="948" />
+    </figure>
   </div>
 </section>

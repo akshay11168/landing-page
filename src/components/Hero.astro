@@ -1,51 +1,46 @@
 ---
 import { hero } from "../content/site";
+
+const splitAt = hero.title.indexOf(". ");
+const lineOne = splitAt === -1 ? hero.title : hero.title.slice(0, splitAt + 1);
+const lineTwo = splitAt === -1 ? "" : hero.title.slice(splitAt + 2);
 ---
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap hero-grid">
-    <div>
-      <p class="index-row">
-        <span class="index">01</span>
-        <span class="kicker">{hero.kicker}</span>
-      </p>
+    <div class="hero-copy">
       <h1 id="hero-title">
-        {hero.before}<span class="mark">{hero.mark}</span>{hero.after}
+        <span class="hero-line">{lineOne}</span>
+        {lineTwo && <span class="hero-line">{lineTwo}</span>}
       </h1>
+      <p class="promise">{hero.promise}</p>
       <p class="lede">{hero.lede}</p>
-      <p class="expertise">
-        <span class="expertise-label">{hero.expertiseLabel}</span>
-      </p>
-      <ul class="expertise-list">
-        {hero.expertise.map((item) => <li>{item}</li>)}
-      </ul>
       <div class="actions">
-        <a class="button" href="#contact" data-track="cta_click" data-track-location="hero">{hero.primaryCta}</a>
-        <a class="button secondary" href="#work" data-track="cta_click" data-track-location="hero-work">{hero.secondaryCta}</a>
+        <a class="button" href="/#services" data-track="cta_click" data-track-location="hero">{hero.primaryCta}</a>
+        <a class="button secondary" href="/#contact" data-track="cta_click" data-track-location="hero-contact">{hero.secondaryCta}</a>
       </div>
     </div>
     <div class="sketch-frame">
       <div class="sketch-offset" aria-hidden="true"></div>
       <figure class="sketch">
-        <svg viewBox="0 0 360 250" role="img" aria-label="A rough sketch of a product request moving through services, a database, and a background job.">
+        <svg viewBox="0 0 360 250" role="img" aria-label="A sketch of an idea moving through a plan, the build, and a working product.">
           <rect x="18" y="28" width="92" height="40" fill="var(--paper-raised)" stroke="var(--ink)" stroke-width="1.5"></rect>
-          <text x="64" y="53" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="var(--ink)">Product</text>
+          <text x="64" y="53" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="var(--ink)">Idea</text>
           <path d="M112 48 H150" stroke="var(--ink)" stroke-width="1.5" fill="none"></path>
           <path d="M144 43 L154 48 L144 53" stroke="var(--ink)" stroke-width="1.5" fill="none"></path>
           <rect x="150" y="24" width="100" height="48" fill="var(--blue)" stroke="var(--ink)" stroke-width="1.5"></rect>
-          <text x="200" y="53" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#ffffff">Services</text>
+          <text x="200" y="53" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#ffffff">Plan</text>
           <path d="M200 74 V108" stroke="var(--ink)" stroke-width="1.5" fill="none"></path>
           <path d="M195 102 L200 112 L205 102" stroke="var(--ink)" stroke-width="1.5" fill="none"></path>
           <rect x="146" y="114" width="110" height="42" fill="var(--paper-raised)" stroke="var(--ink)" stroke-width="1.5"></rect>
-          <text x="201" y="140" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="var(--ink)">Postgres</text>
+          <text x="201" y="140" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="var(--ink)">Build</text>
           <path d="M256 138 H286" stroke="var(--ink)" stroke-width="1.5" fill="none"></path>
           <rect x="286" y="116" width="58" height="40" fill="var(--yellow)" stroke="var(--ink)" stroke-width="1.5"></rect>
-          <text x="315" y="141" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="var(--ink)">Job</text>
-          <text x="22" y="196" font-family="ui-monospace, monospace" font-size="12" fill="var(--muted)">Where does this strain</text>
-          <text x="22" y="216" font-family="ui-monospace, monospace" font-size="12" fill="var(--muted)">as the product grows?</text>
-          <text x="22" y="232" font-family="ui-monospace, monospace" font-size="12" fill="var(--muted)">Write that down first.</text>
+          <text x="315" y="141" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="var(--ink)">Live</text>
+          <text x="22" y="196" font-family="ui-monospace, monospace" font-size="12" fill="var(--muted)">Strategy, expertise,</text>
+          <text x="22" y="216" font-family="ui-monospace, monospace" font-size="12" fill="var(--muted)">and hands-on execution.</text>
         </svg>
-        <figcaption>A sketch of software under growth. Not a map of yours.</figcaption>
+        <figcaption>A sketch of an idea becoming something that works.</figcaption>
       </figure>
     </div>
   </div>
