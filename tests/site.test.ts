@@ -109,6 +109,16 @@ describe("enquiry validation", () => {
     assert.match(body, /Phone: \+919619375391/);
     assert.doesNotMatch(body, /Budget/);
     assert.doesNotMatch(body, /Company/);
+    assert.doesNotMatch(body, /We need a roadmap/);
+  });
+
+  it("includes the message when one was written", () => {
+    const href = mailtoUrl("enquiry@biradarakshay.com", {
+      ...validBase,
+      message: "We need a roadmap for the checkout.",
+    });
+    const body = decodeURIComponent(href.split("body=")[1] ?? "");
+    assert.match(body, /We need a roadmap for the checkout\./);
   });
 
   it("includes a phone number only when one was provided", () => {

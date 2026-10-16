@@ -80,6 +80,11 @@ const usesProvider = accessKey.trim().length > 0;
           <p id="budget-error" class="field-error" data-error data-error-for="budget" hidden></p>
         </div>
       </div>
+      <div class="field">
+        <label for="message">Message <span class="optional">(optional)</span></label>
+        <textarea id="message" name="message" rows="5" maxlength="4000"></textarea>
+        <p id="message-error" class="field-error" data-error data-error-for="message" hidden></p>
+      </div>
       <p id="form-status" class="form-status" data-status tabindex="-1" hidden></p>
       <button class="button" type="submit" data-submit>
         {usesProvider ? "Send enquiry" : "Open this enquiry in email"}
