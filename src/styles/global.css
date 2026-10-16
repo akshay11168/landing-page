@@ -167,26 +167,6 @@ h3 {
   outline-offset: 3px;
 }
 
-.stripe {
-  display: flex;
-  height: 8px;
-}
-
-.stripe span:nth-child(1) {
-  flex: 1;
-  background: var(--ink);
-}
-
-.stripe span:nth-child(2) {
-  width: 18%;
-  background: var(--blue);
-}
-
-.stripe span:nth-child(3) {
-  width: 10%;
-  background: var(--yellow);
-}
-
 .site-header {
   position: sticky;
   top: 0;
