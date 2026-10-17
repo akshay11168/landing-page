@@ -14,9 +14,10 @@
   --tint-reed: #e6f0e4;
   --contact: #14343a;
   --contact-muted: #d3e3e1;
-  --display: "Fraunces Variable", "Iowan Old Style", Palatino, Georgia, serif;
-  --sans: "Segoe UI", system-ui, sans-serif;
-  --mono: "Cascadia Mono", "Segoe UI Mono", ui-monospace, monospace;
+  --display: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --sans: "Open Sans Variable", "Segoe UI", system-ui, sans-serif;
+  --mono: var(--sans);
+  --orange: #ff9900;
   --wrap: 1120px;
   --radius: 1rem;
   --shadow: 0 14px 34px rgba(44, 51, 50, 0.08);
@@ -67,11 +68,12 @@ figure {
 h1,
 h2,
 h3,
+h4,
 .wordmark {
   font-family: var(--display);
-  font-weight: 560;
-  letter-spacing: -0.03em;
-  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 h1 {
@@ -105,7 +107,6 @@ h3 {
 }
 
 h4 {
-  font-family: var(--sans);
   font-size: 1rem;
   letter-spacing: 0;
   font-weight: 700;
@@ -331,6 +332,14 @@ h3 {
   font-size: 1.08rem;
 }
 
+.section-heading .lede,
+.promise,
+.service-problem,
+.work-card p,
+.project-detail .lede {
+  color: var(--orange);
+}
+
 .expertise {
   margin-top: 1.25rem;
   margin-bottom: 0.35rem;
@@ -435,9 +444,8 @@ h3 {
 
 .problem-list h3 {
   margin: 0;
-  font-family: var(--sans);
   font-size: 0.95rem;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: 0;
   line-height: 1.35;
 }
@@ -878,7 +886,7 @@ h3 {
 }
 
 .section-heading h2.single-line.tight {
-  font-size: min(2.05rem, 2.9cqi);
+  font-size: min(2rem, 2.8cqi);
 }
 
 @media (max-width: 699px) {
@@ -891,11 +899,16 @@ h3 {
 .promise {
   margin-top: 1rem;
   max-width: 28ch;
-  font-family: var(--display);
   font-size: clamp(1.35rem, 2.6vw, 1.85rem);
-  font-weight: 560;
-  letter-spacing: -0.03em;
-  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.hero .promise {
+  max-width: none;
+  white-space: nowrap;
+  font-size: min(1.85rem, 4.15cqi);
 }
 
 .stats-band {
@@ -921,33 +934,49 @@ h3 {
   border-top: 1px solid var(--line);
 }
 
-.stat-head {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.2rem;
+.stats li {
+  container-type: inline-size;
+  min-width: 0;
 }
 
-.stat-value {
+.stat-figure {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.stat-value,
+.stat-unit {
   font-family: var(--display);
-  font-size: clamp(2rem, 2.4vw, 2.75rem);
-  font-weight: 560;
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 1;
 }
 
-.stat-label,
-.stat-detail {
-  margin: 0;
-  font-family: var(--display);
-  font-size: clamp(1.05rem, 1.15vw, 1.2rem);
-  font-weight: 560;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+.stat-value {
+  font-size: clamp(2rem, 2.4vw, 2.75rem);
 }
 
-.stat-detail {
-  margin-top: 0.35rem;
+.stat-unit {
+  font-size: clamp(1.15rem, 1.4vw, 1.45rem);
+}
+
+.stat-text {
+  margin: 0.4rem 0 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: min(1rem, 6.1cqi);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 639px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
 }
 
 .offering-grid,
@@ -1072,8 +1101,8 @@ h3 {
   margin: 0 0 0.7rem;
   font-family: var(--display);
   font-size: 1.05rem;
-  font-weight: 560;
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 1.2;
 }
 

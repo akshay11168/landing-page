@@ -8,11 +8,11 @@ import { stats } from "../content/site";
       {
         stats.map((stat) => (
           <li>
-            <p class="stat-head">
+            <p class="stat-figure">
               <span class="stat-value" data-count={stat.value} data-suffix={stat.suffix}>{stat.display}</span>
-              <span class="stat-label">{stat.label}</span>
+              {stat.detail && <span class="stat-unit">{stat.label}</span>}
             </p>
-            {stat.detail && <p class="stat-detail">{stat.detail}</p>}
+            <p class="stat-text">{stat.detail ?? stat.label}</p>
           </li>
         ))
       }
