@@ -11,6 +11,11 @@ const linkedin = externalUrl(site.linkedin);
       <h1 id="about-title">{about.title}</h1>
       <p class="promise">“{about.quote}”</p>
       {about.paragraphs.map((paragraph) => <p class="lede">{paragraph}</p>)}
+    </div>
+    <div class="about-aside">
+      <figure class="portrait">
+        <img src={about.portrait} alt="Akshay Biradar" width="936" height="948" />
+      </figure>
       <div class="actions">
         <a class="button" href="/#contact" data-track="cta_click" data-track-location="about">Start a Conversation</a>
         {
@@ -24,8 +29,5 @@ const linkedin = externalUrl(site.linkedin);
         <a class="button secondary" href="/#work" data-track="cta_click" data-track-location="about-work">Take a look at Selected Projects</a>
       </div>
     </div>
-    <figure class="portrait">
-      <img src={about.portrait} alt="Akshay Biradar" width="936" height="948" />
-    </figure>
   </div>
 </section>
